@@ -1,14 +1,29 @@
+import { useEffect, useState } from "react";
 import ProductCard from "../../components/card/productCard";
-import PRODUCT_EXAMPLE from "../../DATA/PRODUCT_EXAMPLE";
+import useGetProducts from "../../DATA/API/PRODUCTS/getProducts";
 
 // CSS
 import "./products.css";
 
 export default function Products() {
-  const products = PRODUCT_EXAMPLE.map((product, index) => {
+  const productDataPromise = useGetProducts("all");
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchProductData() {
+      const data = await productDataPromise;
+      setProducts(data);
+    }
+
+    fetchProductData();
+  }, [productDataPromise]);
+
+  const productList = products.map((product, index) => {
     let key = "product_" + index;
     return <ProductCard product={product} key={key} />;
   });
+  console.log(productList);
   return (
     <>
       <div className="felx text-center text-2xl">
@@ -17,7 +32,7 @@ export default function Products() {
       <div className="container">
         <div className="content">
           <div className="flex flex-wrap justify-content-start gap-5">
-            {products}
+            {productList}
           </div>
         </div>
       </div>
