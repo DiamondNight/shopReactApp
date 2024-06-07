@@ -6,9 +6,17 @@ export default function ProductCard(props) {
   // eslint-disable-next-line react/prop-types
   const { product } = props;
   const price = product.price - (product.price * product.discount) / 100;
-  const header = <img alt="Card" src={product.image_url} />;
+  const header = (
+    <div className="overflow-hidden">
+      <img
+        alt="Card"
+        className="bg-contain max-w-20rem max-h-25rem"
+        src={product.image_url}
+      />
+    </div>
+  );
   const footer = (
-    <div className="flex justify-content-start">
+    <div className="flex justify-content-center">
       <Button label="Add To Cart" icon="pi pi-cart-plus" />
     </div>
   );
@@ -18,15 +26,14 @@ export default function ProductCard(props) {
       <i className="pi pi-euro" />
     </p>
   );
-  console.log(product);
   return (
-    <div className="card flex justify-content-center">
+    <div className="card text-center">
       <Card
         title={product.product_name}
         subTitle={subTitle}
         footer={footer}
         header={header}
-        className="md:w-25rem"
+        className="md:w-20rem"
       >
         <div className="flex flex-column">
           <p className="m-1">Alcohol (% Vol) : {product.description.alc_vol}</p>
