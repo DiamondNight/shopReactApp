@@ -1,6 +1,6 @@
 import { SpeedDial } from "primereact/speeddial";
 import { Toast } from "primereact/toast";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 //CSS
 import "./menuButton.css";
@@ -42,9 +42,11 @@ export default function MenuBar() {
         }
       },
     },
-    {
-      label: "Delete",
-      icon: "pi pi-trash",
+  ];
+  if (!user) {
+    let logIn = {
+      label: "Log In",
+      icon: "pi pi-sign-in",
       command: () => {
         user = true;
         if (!user) {
@@ -59,10 +61,9 @@ export default function MenuBar() {
           });
         }
       },
-    },
-  ];
-  const toast = useRef(null);
-  if (user) {
+    };
+    items.push(logIn);
+  } else {
     let logOut = {
       label: "Log Out",
       icon: "pi pi-sign-out",
@@ -83,6 +84,7 @@ export default function MenuBar() {
     items.push(logOut);
   }
 
+  const toast = useRef(null);
   return (
     <div
       style={{ position: "relative", right: 50, bottom: 30, height: "500px" }}
