@@ -70,6 +70,7 @@ export default function MenuBar() {
       icon: "pi pi-sign-out",
       command: () => {
         storageService.removeAuthToken();
+        window.location.reload(true);
       },
     };
     items.push(logOut);

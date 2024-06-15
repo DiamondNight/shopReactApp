@@ -4,8 +4,7 @@ import storageService from "../../DATA/API/authentication/storageService";
 async function logInEvent(email, password) {
     try {
         const token = await authService.loginUser(email, password);
-        storageService.setAuthToken(token.token);
-        console.log("DONE");
+        storageService.setAuthToken(token.token, token.id);
         return true
     } catch (error) {
         return ("Error", error)
