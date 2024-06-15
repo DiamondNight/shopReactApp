@@ -26,7 +26,7 @@ export default function Products() {
   console.log(productList);
   return (
     <>
-      <div className="felx text-center text-2xl">
+      <div className="text-center text-2xl">
         <h2>Wines</h2>
       </div>
       <div className="container">

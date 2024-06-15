@@ -1,5 +1,6 @@
 import { Menubar } from "primereact/menubar";
 import MenuButton from "./menu-button/menuButton";
+import "./headerBar.css"
 
 export default function HeaderBar() {
   const items = [

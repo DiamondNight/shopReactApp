@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import URL from "./URL";
+import URL from "../URL";
 
 export default async function useGetProducts(type) {
     const url = URL + 'products/' + type;
