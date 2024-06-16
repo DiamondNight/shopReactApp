@@ -5,9 +5,10 @@ async function logInEvent(email, password) {
     try {
         const token = await authService.loginUser(email, password);
         storageService.setAuthToken(token.token, token.id);
-        return true
+        return token
     } catch (error) {
-        return ("Error", error)
+        console.error(error);
+        return (error)
     }
 }
 
@@ -27,7 +28,8 @@ async function registerEvent(email, password, name) {
         }
     }
     catch (error) {
-        return ("Error", error)
+        console.log("Error", error);
+        return (error)
     }
 }
 export default {

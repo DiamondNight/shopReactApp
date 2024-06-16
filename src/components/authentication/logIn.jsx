@@ -1,8 +1,10 @@
 import { Password } from "primereact/password";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
+
 import authenEvents from "./authenEvents";
 import "./authentication.css";
 
@@ -10,6 +12,7 @@ function LogIn() {
   const [valuePassword, setValuePassword] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [errors, setErrors] = useState({});
+  const toast = useRef(null);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -28,8 +31,26 @@ function LogIn() {
 
   const handleSubmit = async () => {
     const validationErrors = validate();
+
     if (Object.keys(validationErrors).length === 0) {
-      await authenEvents.logInEvent(valueEmail, valuePassword);
+      let logIn = await authenEvents.logInEvent(valueEmail, valuePassword);
+
+      if (logIn.status == "Error") {
+        toast.current.show({
+          severity: "warn",
+          summary: "Warning",
+          detail: logIn.message,
+          life: 3000,
+        });
+      }
+      if (logIn.status == "Ok") {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: logIn.message,
+          life: 3000,
+        });
+      }
     } else {
       setErrors(validationErrors);
     }
@@ -74,6 +95,7 @@ function LogIn() {
             )}{" "}
           </div>
           <div>
+            <Toast ref={toast} />
             <Button
               label="Submit"
               onClick={async () => handleSubmit()}
