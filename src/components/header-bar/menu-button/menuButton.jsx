@@ -1,12 +1,20 @@
+//REACT
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+
+//PRIME REACT
 import { SpeedDial } from "primereact/speeddial";
 import { Toast } from "primereact/toast";
-import { useRef } from "react";
+
+//COMPONENTS
+import storageService from "../../../DATA/API/authentication/storageService";
 
 //CSS
 import "./menuButton.css";
 
 export default function MenuBar() {
-  let user = false;
+  let user = storageService.getAuthToken();
+  const navigate = useNavigate();
   const items = [
     {
       label: "Profile",
@@ -48,18 +56,7 @@ export default function MenuBar() {
       label: "Log In",
       icon: "pi pi-sign-in",
       command: () => {
-        user = true;
-        if (!user) {
-          toast.current.show({
-            severity: "error",
-            summary: "Log In Require",
-          });
-        } else {
-          toast.current.show({
-            severity: "success",
-            summary: "Profile",
-          });
-        }
+        navigate("/login");
       },
     };
     items.push(logIn);
@@ -68,17 +65,8 @@ export default function MenuBar() {
       label: "Log Out",
       icon: "pi pi-sign-out",
       command: () => {
-        if (!user) {
-          toast.current.show({
-            severity: "error",
-            summary: "Log In Require",
-          });
-        } else {
-          toast.current.show({
-            severity: "success",
-            summary: "Profile",
-          });
-        }
+        storageService.removeAuthToken();
+        navigate("/")
       },
     };
     items.push(logOut);
