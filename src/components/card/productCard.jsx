@@ -1,8 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
+import { useState } from "react";
+import addProductToCart from "../../DATA/API/PRODUCTS/addProductToCart";
 
 export default function ProductCard(props) {
+  const [count, setCount] = useState(1);
+
+  const handleSubmit = async (id, quantity)=>{
+    const result = await addProductToCart(id, quantity)
+    return result
+  }
+
   // eslint-disable-next-line react/prop-types
   const { product } = props;
   const price = product.price - (product.price * product.discount) / 100;
@@ -16,8 +25,23 @@ export default function ProductCard(props) {
     </div>
   );
   const footer = (
-    <div className="flex justify-content-center">
-      <Button label="Add To Cart" icon="pi pi-cart-plus" />
+    <div className="flex justify-content-center gap-3">
+      <Button label="Add To Cart" icon="pi pi-cart-plus" onClick={()=> handleSubmit(product._id, count)}/>
+      <div className="flex justify-content-center align-items-center gap-2">
+        <Button
+          icon="pi pi-minus"
+          rounded
+          text
+          onClick={() => (count != 1 ? setCount(count - 1) : undefined)}
+        />
+        <p>{count}</p>
+        <Button
+          icon="pi pi-plus"
+          rounded
+          text
+          onClick={() => setCount(count + 1)}
+        />
+      </div>
     </div>
   );
   const subTitle = (

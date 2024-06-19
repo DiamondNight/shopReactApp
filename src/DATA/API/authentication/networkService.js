@@ -41,26 +41,53 @@ async function postFetch(path, body) {
 }
 
 async function postFetchAuthenticated(path, body) {
-    const url = URL + path;
-    const options = {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            token: storageService.getAuthToken
-        },
+    try {
+        const url = URL + path;
+        const options = {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                token: storageService.getAuthToken
+            },
+        }
+        const response = await fetch(url, options);
+        const result = await response.json();
+        return result;
+
+    } catch (error) {
+        console.error("Error:", error)
     }
 
-    const response = await fetch(url, options);
-    const result = await response.json();
+}
 
-    return result;
+async function putFetchAuthenticated(path, body) {
+    try {
+        const url = URL + path;
+        const token = storageService.getAuthToken();
+        const options = {
+            method: "PUT",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                token,
+            },
+        }
+        const response = await fetch(url, options);
+        const result = await response.json();
+        return result;
+
+    } catch (error) {
+        console.error("Error:", error)
+    }
+
 }
 
 export default {
     getFetch,
     getFetchAuthenticated,
     postFetch,
-    postFetchAuthenticated
+    postFetchAuthenticated,
+    putFetchAuthenticated
 
 }
