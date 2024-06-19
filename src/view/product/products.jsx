@@ -1,4 +1,7 @@
+//REACT
 import { useEffect, useState } from "react";
+
+//COMPONENTS
 import ProductCard from "../../components/card/productCard";
 import useGetProducts from "../../DATA/API/PRODUCTS/getProducts";
 

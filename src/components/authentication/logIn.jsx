@@ -1,19 +1,26 @@
-import { Password } from "primereact/password";
+//REACT
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+//CSS
+import "./authentication.css";
+
+//PRIME REACT
+import { Password } from "primereact/password";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
+//COMPONENTS
 import authenEvents from "./authenEvents";
-import "./authentication.css";
 
 function LogIn() {
   const [valuePassword, setValuePassword] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
   const toast = useRef(null);
-
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const validate = () => {
@@ -50,6 +57,9 @@ function LogIn() {
           detail: logIn.message,
           life: 3000,
         });
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       }
     } else {
       setErrors(validationErrors);
@@ -63,7 +73,7 @@ function LogIn() {
       <div className="text-center text-2xl">
         <h2>Log In</h2>
       </div>
-      <div className="contentLogIn flex justify-content-center align-items-center">
+      <div className="contentLogIn flex flex-column justify-content-center align-items-center">
         <div className="card flex flex-column justify-content-center align-items-center gap-4">
           <div className="p-inputgroup flex-1">
             <FloatLabel>
@@ -97,13 +107,14 @@ function LogIn() {
           <div>
             <Toast ref={toast} />
             <Button
-              label="Submit"
+              label="Log In"
               onClick={async () => handleSubmit()}
               disabled={!valueEmail || !valuePassword}
             />
           </div>
         </div>
       </div>
+        <Button label="Register" link onClick={()=> navigate("/register")}/>
     </div>
   );
 }

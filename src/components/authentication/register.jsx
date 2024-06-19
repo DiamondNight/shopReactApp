@@ -1,17 +1,27 @@
+//REACT
+import { useRef, useState } from "react";
+
+//CSS
+import "./authentication.css";
+
+//PRIME REACT
 import { Password } from "primereact/password";
-import { useState } from "react";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import authenEvents from "./authenEvents";
 
-import "./authentication.css";
+//COMPONENTS
+import authenEvents from "./authenEvents";
+import { useNavigate } from "react-router-dom";
+import { Toast } from "primereact/toast";
 
 function Register() {
   const [valuePassword, setValuePassword] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [valueName, setValueName] = useState("");
   const [errors, setErrors] = useState({});
+  const toast = useRef(null);
+  const navigate = useNavigate();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -34,7 +44,30 @@ function Register() {
   const handleSubmit = async () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-      await authenEvents.registerEvent(valueEmail, valuePassword, valueName);
+      const userRegister = await authenEvents.registerEvent(
+        valueEmail,
+        valuePassword,
+        valueName
+      );
+      console.log(userRegister);
+      if (userRegister.status == "OK") {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: userRegister.message,
+          life: 3000,
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      } else {
+        toast.current.show({
+          severity: "warn",
+          summary: "Warning",
+          detail: userRegister.message,
+          life: 3000,
+        });
+      }
     } else {
       setErrors(validationErrors);
     }
@@ -92,8 +125,9 @@ function Register() {
             <small className="p-error">{errors.password}</small>
           )}
           <div>
+            <Toast ref={toast} />
             <Button
-              label="Submit"
+              label="Register"
               onClick={async () => handleSubmit()}
               disabled={!valueName || !valueEmail || !valuePassword}
             />

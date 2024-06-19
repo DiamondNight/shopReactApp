@@ -21,10 +21,9 @@ async function registerEvent(email, password, name) {
         );
         if (userRegister.status === "OK") {
             await logInEvent(email, password)
-            return
+            return userRegister
         } else {
-            alert(userRegister.message)
-            return
+            return userRegister
         }
     }
     catch (error) {
