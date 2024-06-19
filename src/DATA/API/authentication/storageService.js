@@ -6,9 +6,8 @@ function getId() {
     return localStorage.getItem("id");
 }
 
-function setAuthToken(token, id) {
+function setAuthToken(token) {
     localStorage.setItem("at", token);
-    localStorage.setItem("id", id);
 }
 
 function removeAuthToken() {
