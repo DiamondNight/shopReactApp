@@ -11,18 +11,20 @@ import "/node_modules/primeflex/primeflex.css";
 
 //COMPONENTES
 import HeaderBar from "./components/header-bar/headerBar";
-import Products from "./view/product/products";
 import LogIn from "./components/authentication/logIn";
 import Register from "./components/authentication/register";
+import Products from "./view/product/products";
+import Cart from "./view/cart/cart";
 
 function App() {
   return (
     <div className="container">
       <HeaderBar />
       <Routes>
-        <Route path="/" exact element={<Products />} />
         <Route path="/login" exact element={<LogIn />} />
         <Route path="/register" exact element={<Register />} />
+        <Route path="/" exact element={<Products />} />
+        <Route path="/cart" exact element={<Cart />} />
       </Routes>
     </div>
   );

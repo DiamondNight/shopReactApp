@@ -1,12 +1,28 @@
+//REACT
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+
+//CSS
+import "./headerBar.css";
+
+//PRIME REACT
 import { Menubar } from "primereact/menubar";
 import MenuButton from "./menu-button/menuButton";
-import "./headerBar.css"
+import { Toast } from "primereact/toast";
+
+//COMPONENTS
+import storageService from "../../DATA/API/authentication/storageService";
 
 export default function HeaderBar() {
+  let user = storageService.getAuthToken();
+  const navigate = useNavigate();
   const items = [
     {
       label: "Wines",
       icon: "pi pi-home",
+      command: ()=>{
+        navigate("/")
+      }
     },
     {
       separator: true,
@@ -14,6 +30,16 @@ export default function HeaderBar() {
     {
       label: "Cart",
       icon: "pi pi-shopping-cart",
+      command: () => {
+        if (!user) {
+          toast.current.show({
+            severity: "error",
+            summary: "Log In Require",
+          });
+        } else {
+          navigate("/cart");
+        }
+      },
     },
   ];
 
@@ -34,8 +60,10 @@ export default function HeaderBar() {
     </div>
   );
 
+  const toast = useRef(null);
   return (
     <div className="card">
+      <Toast ref={toast} />
       <Menubar model={items} start={start} end={end} className="content py-2" />
     </div>
   );
