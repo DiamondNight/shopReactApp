@@ -7,7 +7,6 @@ import useGetProducts from "../../DATA/API/PRODUCTS/getProducts";
 
 // CSS
 import "./products.css";
-import Cart from "../cart/cart";
 
 export default function Products() {
   const productDataPromise = useGetProducts("all");
