@@ -9,7 +9,6 @@ export default async function useGetProducts(type) {
             try {
                 const response = await fetch(url);
                 const result = await response.json();
-                console.log(result);
                 setProductData(result)
             } catch (error) {
                 console.error(error);

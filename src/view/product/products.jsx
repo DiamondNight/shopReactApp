@@ -26,7 +26,6 @@ export default function Products() {
     let key = "product_" + index;
     return <ProductCard product={product} key={key} />;
   });
-  console.log(productList);
   return (
     <>
       <div className="text-center text-2xl">
