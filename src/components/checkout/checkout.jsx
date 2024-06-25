@@ -74,7 +74,7 @@ export default function CheckOutInput() {
 
   return (
     <div className="flex flex-column justify-content-center align-items-center">
-      <div className="contentLogIn flex flex-column justify-content-center align-items-center">
+      <div className="contentCheckOut flex flex-column justify-content-center align-items-center">
         <div className="card flex flex-column justify-content-center align-items-center gap-4">
           <span className="text-center text-xl">
             Total: {formatCurrency(finalPrice)}
@@ -116,7 +116,7 @@ export default function CheckOutInput() {
           <div>
             <Toast ref={toast} />
             <Button
-              label="Log In"
+              label="Buy"
               disabled={!infoCheckOut.payment_method || !infoCheckOut.address}
               onClick={async () => handleSubmit()}
             />
