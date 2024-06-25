@@ -1,18 +1,24 @@
 //REACT
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
+//COMPONENTS
+import getProductsFromUserCart from "../../DATA/API/cart/getProductsFromUserCart";
+import deleteProductFromUserCart from "../../DATA/API/cart/deleteProductFromUserCart";
+import updateQuantityProductFromUserCart from "../../DATA/API/cart/updateQuantityProductFromUserCart";
 
 //PRIME REACT
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
-import getProductsFromUserCart from "../../DATA/API/cart/getProductsFromUserCart";
-import deleteProductFromUserCart from "../../DATA/API/cart/deleteProductFromUserCart";
-import updateQuantityProductFromUserCart from "../../DATA/API/cart/updateQuantityProductFromUserCart";
+import { Toast } from "primereact/toast";
 
 export default function CartTable() {
   const [products, setProducts] = useState([]);
   const [finalPrice, setfinalPrice] = useState(0);
+  const toast = useRef(null);
   const getCart = getProductsFromUserCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getUserCart() {
@@ -35,7 +41,7 @@ export default function CartTable() {
   const formatCurrency = (value) => {
     return value.toLocaleString("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: "EUR",
     });
   };
 
@@ -111,12 +117,30 @@ export default function CartTable() {
     );
   };
 
+  const handleSubmit = () => {
+    if (products.length > 0) {
+      navigate("/checkout");
+    } else {
+      toast.current.show({
+        severity: "warn",
+        summary: "Warning",
+        detail: "The shopping cart is empty",
+        life: 3000,
+      });
+    }
+  };
+
   const header = (
     <div className="flex flex-wrap align-items-center justify-content-between gap-2">
       <span className="text-xl text-900 font-bold">Products</span>
       <div className="flex align-items-center gap-2">
         <span>Total: {formatCurrency(finalPrice)}</span>
-        <Button icon="pi pi-shopping-cart" rounded raised />
+        <Button
+          icon="pi pi-shopping-cart"
+          rounded
+          raised
+          onClick={() => handleSubmit()}
+        />
       </div>
     </div>
   );
@@ -127,6 +151,7 @@ export default function CartTable() {
 
   return (
     <div className="card">
+      <Toast ref={toast} />
       <DataTable
         value={products}
         header={header}

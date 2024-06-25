@@ -43,12 +43,14 @@ async function postFetch(path, body) {
 async function postFetchAuthenticated(path, body) {
     try {
         const url = URL + path;
+        console.log(url);
+        const token = storageService.getAuthToken();
         const options = {
             method: "POST",
             body: JSON.stringify(body),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
-                token: storageService.getAuthToken
+                token,
             },
         }
         const response = await fetch(url, options);
