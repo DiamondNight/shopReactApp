@@ -19,6 +19,13 @@ export default function ProductCard(props) {
   let user = storageService.getAuthToken();
   const toast = useRef(null);
 
+  const formatCurrency = (value) => {
+    return value.toLocaleString("en-US", {
+      style: "currency",
+      currency: "EUR",
+    });
+  };
+
   const handleSubmit = async (id, quantity) => {
     if (!user) {
       toast.current.show({
@@ -74,8 +81,7 @@ export default function ProductCard(props) {
   );
   const subTitle = (
     <p className="m-0" style={{ fontSize: "1.5rem" }}>
-      {price}
-      <i className="pi pi-euro" />
+      {formatCurrency(price)}
     </p>
   );
   return (

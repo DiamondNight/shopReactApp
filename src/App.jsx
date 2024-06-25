@@ -15,6 +15,7 @@ import LogIn from "./components/authentication/logIn";
 import Register from "./components/authentication/register";
 import Products from "./view/product/products";
 import Cart from "./view/cart/cart";
+import CheckOut from "./view/checkout/checkout";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/register" exact element={<Register />} />
         <Route path="/" exact element={<Products />} />
         <Route path="/cart" exact element={<Cart />} />
+        <Route path="/checkout" exact element={<CheckOut />} />
       </Routes>
     </div>
   );
