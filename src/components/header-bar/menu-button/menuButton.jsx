@@ -1,5 +1,5 @@
 //REACT
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 //PRIME REACT
@@ -14,6 +14,7 @@ import "./menuButton.css";
 
 export default function MenuBar() {
   let user = storageService.getAuthToken();
+  let location = useLocation();
   const navigate = useNavigate();
   const items = [
     {
@@ -66,7 +67,10 @@ export default function MenuBar() {
       icon: "pi pi-sign-out",
       command: () => {
         storageService.removeAuthToken();
-        navigate("/")
+        navigate("/");
+        if (location.pathname === "/") {
+          window.location.reload(true);
+        }
       },
     };
     items.push(logOut);

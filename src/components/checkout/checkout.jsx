@@ -17,9 +17,9 @@ export default function CheckOutInput() {
   const navigate = useNavigate();
   const [finalPrice, setfinalPrice] = useState(0);
   const [infoCheckOut, setInfoCheckOut] = useState({
-    "payment_method": "",
-    "payment_price": finalPrice,
-    "address": "",
+    payment_method: "",
+    payment_price: finalPrice,
+    address: "",
   });
   const toast = useRef(null);
   const getCart = getProductsFromUserCart();
@@ -36,12 +36,19 @@ export default function CheckOutInput() {
   const handleSubmit = async () => {
     console.log(infoCheckOut);
     const order = await createOrder(infoCheckOut);
-    console.log(order);
     if (order.acknowledged === true) {
       toast.current.show({
         severity: "success",
         summary: "Success",
-        detail: order.message,
+        life: 3000,
+      });
+      setTimeout(() => {
+        navigate("/cart");
+      }, 1500);
+    } else if (order === "error") {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
         life: 3000,
       });
       setTimeout(() => {
