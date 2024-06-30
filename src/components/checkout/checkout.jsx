@@ -62,11 +62,13 @@ export default function CheckOutInput() {
       const cart = await getCart;
       let price = 0;
       cart.array_products.forEach((element) => {
-        price =
-          price +
-          (element.product.price -
-            (element.product.price * element.product.discount) / 100) *
-            element.quantity;
+        if ((element.product.status === "stock")) {
+          price =
+            price +
+            (element.product.price -
+              (element.product.price * element.product.discount) / 100) *
+              element.quantity;
+        }
       });
       setInfoCheckOut((prev) => ({
         ...prev,

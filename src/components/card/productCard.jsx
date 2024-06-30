@@ -44,6 +44,7 @@ export default function ProductCard(props) {
 
   // eslint-disable-next-line react/prop-types
   const { product } = props;
+  console.log(product.status);
   const price = product.price - (product.price * product.discount) / 100;
   const header = (
     <div className="overflow-hidden">
@@ -59,6 +60,7 @@ export default function ProductCard(props) {
       <Button
         label="Add To Cart"
         icon="pi pi-cart-plus"
+        
         onClick={() => handleSubmit(product._id, count)}
       />
       <div className="flex justify-content-center align-items-center gap-2">
@@ -67,6 +69,7 @@ export default function ProductCard(props) {
           icon="pi pi-minus"
           rounded
           text
+          disabled={product.status === "deleted"}
           onClick={() => (count != 1 ? setCount(count - 1) : undefined)}
         />
         <p>{count}</p>
@@ -74,6 +77,7 @@ export default function ProductCard(props) {
           icon="pi pi-plus"
           rounded
           text
+          disabled={product.status === "deleted"}
           onClick={() => setCount(count + 1)}
         />
       </div>
@@ -81,7 +85,7 @@ export default function ProductCard(props) {
   );
   const subTitle = (
     <p className="m-0" style={{ fontSize: "1.5rem" }}>
-      {formatCurrency(price)}
+      {product.status === "stock" ? formatCurrency(price) : "Out Of Stock"}
     </p>
   );
   return (

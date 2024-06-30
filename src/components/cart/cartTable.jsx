@@ -59,7 +59,9 @@ export default function CartTable() {
     const price =
       product.product.price -
       (product.product.price * product.product.discount) / 100;
-    return formatCurrency(price);
+    return product.product.status === "stock"
+      ? formatCurrency(price)
+      : "Out Of Stock";
   };
 
   const deleteBody = (product) => {
